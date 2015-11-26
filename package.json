@@ -1,0 +1,28 @@
+{
+  "name": "postcss-trolling",
+  "version": "0.0.0",
+  "description": "PostCSS plugin to increase the productivity of your coworkers",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "trolling"
+  ],
+  "author": "Juanfran <juanfran.ag@gmail.com>",
+  "license": "MIT",
+  "repository": "juanfran/postcss-trolling",
+  "bugs": {
+    "url": "https://github.com/juanfran/postcss-trolling/issues"
+  },
+  "homepage": "https://github.com/juanfran/postcss-trolling",
+  "dependencies": {
+    "postcss": "^5.0.10"
+  },
+  "devDependencies": {
+    "ava": "^0.6.1",
+    "eslint": "^1.9.0"
+  },
+  "scripts": {
+    "test": "ava && eslint *.js"
+  }
+}
