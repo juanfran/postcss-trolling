@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/juanfran/postcss-trolling",
   "dependencies": {
+    "object.assign": "^4.0.3",
     "postcss": "^5.0.10"
   },
   "devDependencies": {
