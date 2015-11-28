@@ -8,13 +8,21 @@ import plugin from './';
 var defaults = plugin.defaults;
 
 var allDisabled = {
-  rotate: false,
+  aling: false,
   blur: false,
+  blurBlink: false,
+  clearfix: false,
   comicSans: false,
-  hideOdd: false,
-  wait: false,
+  heigth: false,
   hideCursor: false,
-  slowlyGrowText: false
+  hideOdd: false,
+  ms: false,
+  ren: false,
+  rotate: false,
+  slowlyGrowText: false,
+  verImportant: false,
+  wait: false,
+  zIndex: false
 };
 
 function run(t, input, output, opts = { }) {
@@ -25,79 +33,97 @@ function run(t, input, output, opts = { }) {
   });
 }
 
-test('box-sizing boder-box -> content-box', t => {
-  var input = 'a { box-sizing: border-box; }';
-  var output = 'a { box-sizing: content-box; }';
-  return run(t, input, output, { });
-});
-
 test('clearfix after -> before', t => {
   var input = '.clearfix:after { }';
   var output = '.clearfix:before { }';
-  return run(t, input, output, { });
-});
 
-test('!import -> !!important', t => {
-  var input = '.a { width: 100%!important; }';
-  var output = '.a { width: 100%!!important; }';
+  var opts = assign({}, allDisabled, {
+    clearfix: true
+  });
 
-  return run(t, input, output, { });
+  return run(t, input, output, opts);
 });
 
 test('height -> heigth', t => {
   var input = '.a { height: 100%; }';
   var output = '.a { heigth: 100%; }';
 
-  return run(t, input, output, { });
+  var opts = assign({}, allDisabled, {
+    heigth: true
+  });
+
+  return run(t, input, output, opts);
 });
 
 test('align-content -> aling-content', t => {
   var input = '.a { align-content: center; }';
   var output = '.a { aling-content: center; }';
 
-  return run(t, input, output, { });
+  var opts = assign({}, allDisabled, {
+    aling: true
+  });
+
+  return run(t, input, output, opts);
 });
 
 test('rem -> ren', t => {
   var input = '.a { width: 15rem; }';
   var output = '.a { width: 15ren; }';
 
-  return run(t, input, output, { });
-});
+  var opts = assign({}, allDisabled, {
+    ren: true
+  });
 
-test('diplay: flex -> display: table', t => {
-  var input = '.a { display: flex; }';
-  var output = '.a { display: table; }';
-
-  return run(t, input, output, { });
+  return run(t, input, output, opts);
 });
 
 test('remove ms', t => {
   var input = '.a { -ms-flex: 1; }';
   var output = '.a { flex: 1; }';
 
-  return run(t, input, output, { });
+  var opts = assign({}, allDisabled, {
+    ms: true
+  });
+
+  return run(t, input, output, opts);
 });
 
 test('z-index: 0', t => {
   var input = '.a { z-index: 9999; }';
   var output = '.a { z-index: 0; }';
 
-  return run(t, input, output, { });
+  var opts = assign({}, allDisabled, {
+    zIndex: defaults.zIndex
+  });
+
+  return run(t, input, output, opts);
 });
 
-test('margin: 0 auto; -> margin: auto 0;', t => {
-  var input = '.a { margin: 0 auto; }';
-  var output = '.a { margin: auto 0; }';
+test('!import -> !!important', t => {
+  var input = '.a { width: 100%!important; }';
+  var output = '.a { width: 100%!!important; }';
 
-  return run(t, input, output, { });
+  var opts = assign({}, allDisabled, {
+    veryImportant: defaults.veryImportant
+  });
+
+  return run(t, input, output, opts);
 });
 
-
-
-test.only('slowlyGrowText', t => {
+test('blur', t => {
   var input = '';
-  var output = 'p {\n    animation: grow 120s ease-in\n}\n@keyframes blur {\n    0% {\n        font-size: none\n    }\n    100% {\n        font-size: 80pt\n    }\n}';
+  var output = 'body {\n    animation: blur 120s infinite\n}\n@keyframes blur {\n    0% {\n        -webkit-filter: blur(0px)\n    }\n    100% {\n        -webkit-filter: blur(0.8px)\n    }\n}';
+
+  var opts = assign({}, allDisabled, {
+    blur: defaults.blur
+  });
+
+  return run(t, input, output, opts);
+});
+
+test('slowlyGrowText', t => {
+  var input = '';
+  var output = 'p {\n    animation: slowlyGrowText 120s ease-in\n}\n@keyframes slowlyGrowText {\n    0% {\n        font-size: none\n    }\n    100% {\n        font-size: 80pt\n    }\n}';
 
   var opts = assign({}, allDisabled, {
     slowlyGrowText: defaults.slowlyGrowText
@@ -162,12 +188,12 @@ test('rotate', t => {
   return run(t, input, output, opts);
 });
 
-test('blur', t => {
+test('blurBlink', t => {
   var input = '';
-  var output = 'body {\n    animation: blur 20s infinite\n}\n@keyframes blur {\n    0% {\n        -webkit-filter: blur(0px)\n    }\n    49% {\n        -webkit-filter: blur(0px)\n    }\n    50% {\n        -webkit-filter: blur(1px)\n    }\n    51% {\n        -webkit-filter: blur(0px)\n    }\n    100% {\n        -webkit-filter: blur(0px)\n    }\n}';
+  var output = 'body {\n    animation: blurBlink 20s infinite\n}\n@keyframes blurBlink {\n    0% {\n        -webkit-filter: blur(0px)\n    }\n    49% {\n        -webkit-filter: blur(0px)\n    }\n    50% {\n        -webkit-filter: blur(1px)\n    }\n    51% {\n        -webkit-filter: blur(0px)\n    }\n    100% {\n        -webkit-filter: blur(0px)\n    }\n}';
 
   var opts = assign({}, allDisabled, {
-    blur: defaults.blur
+    blurBlink: defaults.blurBlink
   });
 
   return run(t, input, output, opts);

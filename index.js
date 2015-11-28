@@ -1,63 +1,71 @@
 var postcss = require('postcss');
 var assign = require('object-assign');
 
+var nodeFns = [
+  {
+    option: 'clearfix',
+    condition: function (node) {
+      return node.selector === '.clearfix:after';
+    },
+    fn: function (node) {
+      node.selector = '.clearfix:before';
+    }
+  }
+];
+
 var declsFns = [
-  function (decl) {
-    if (decl.prop === 'box-sizing' && decl.value === 'border-box') {
-      decl.value = 'content-box';
-    }
-  },
-  function (decl) {
-    if (decl.raws.important === '!important') {
-      decl.raws.important = '!!important';
-    }
-  },
-  function (decl) {
-    if (decl.prop === 'height') {
+  {
+    option: 'heigth',
+    condition: function (decl) {
+      return decl.prop === 'height';
+    },
+    fn: function (decl) {
       decl.prop = 'heigth';
     }
   },
-  function (decl) {
-    if (decl.prop === 'align-content') {
+  {
+    option: 'aling',
+    condition: function (decl) {
+      return decl.prop === 'align-content';
+    },
+    fn: function (decl) {
       decl.prop = 'aling-content';
     }
   },
-  function (decl) {
-    if (decl.value.indexOf('rem') !== -1) {
-      decl.value = decl.value.replace('rem', 'ren');
+  {
+    option: 'veryImportant',
+    condition: function (decl) {
+      return decl.important;
+    },
+    fn: function (decl) {
+      decl.raws.important = '!!important';
     }
   },
-  function (decl) {
-    if (decl.prop ==='display' && decl.value === 'flex') {
-      decl.value = 'table';
-    }
-  },
-  function (decl) {
-    if (decl.prop.indexOf('-ms-') !== -1) {
-      decl.prop = decl.prop.replace('-ms-', '');
-    }
-  },
-  function (decl) {
-    if (decl.prop === 'font-family') {
-      decl.value = '"Comic Sans MS", cursive, sans-serif';
-    }
-  },
-  function (decl) {
-    if (decl.prop === 'z-index') {
+  {
+    option: 'zIndex',
+    condition: function (decl) {
+      return decl.prop === 'z-index';
+    },
+    fn: function (decl) {
       decl.value = '0';
     }
   },
-  function (decl) {
-    if (decl.prop === 'margin' && decl.value === '0 auto') {
-      decl.value = 'auto 0';
+  {
+    option: 'ms',
+    condition: function (decl) {
+      return decl.prop.indexOf('-ms-') !== -1;
+    },
+    fn: function (decl) {
+      decl.prop = decl.prop.replace('-ms-', '');
     }
   },
-];
-
-var nodeFns = [
-  function (node) {
-    if(node.selector === '.clearfix:after') {
-      node.selector = '.clearfix:before';
+  {
+    option: 'ren',
+    condition: function (decl) {
+      return decl.value.indexOf('rem') !== -1;
+    },
+    fn: function (decl) {
+      decl.value = decl.value.replace('rem', 'ren');
     }
   }
 ];
@@ -65,17 +73,17 @@ var nodeFns = [
 var globals = [
   {
     option: 'rotate',
-    fn: function(css, opt) {
-      css.append('body {transform: rotate('+ opt.deg +'deg); overflow: hidden;}');
+    fn: function (css, opt) {
+      css.append('body {transform: rotate(' + opt.deg + 'deg); overflow: hidden;}');
     }
   },
   {
-    option: 'blur',
-    fn: function(css, opt) {
-      css.append('body {animation: blur '+ opt.time +' infinite;}');
+    option: 'blurBlink',
+    fn: function (css, opt) {
+      css.append('body {animation: blurBlink ' + opt.time + ' infinite;}');
 
       var blur = '' +
-      '@keyframes blur {' +
+      '@keyframes blurBlink {' +
       '0%   { -webkit-filter: blur(0px); } ' +
       '49%   { -webkit-filter: blur(0px); }' +
       '50%   { -webkit-filter: blur(1px); }' +
@@ -88,35 +96,35 @@ var globals = [
   },
   {
     option: 'comicSans',
-    fn: function(css) {
+    fn: function (css) {
       css.append('* {font-family: \'Comic Sans MS\', cursive !important;}');
     }
   },
   {
     option: 'hideOdd',
-    fn: function(css) {
+    fn: function (css) {
       css.append('p:nth-child(odd) {display: none;}');
     }
   },
   {
     option: 'wait',
-    fn: function(css) {
+    fn: function (css) {
       css.append('html {cursor:wait !important;}');
     }
   },
   {
     option: 'hideCursor',
-    fn: function(css) {
+    fn: function (css) {
       css.append('html {cursor:none !important;}');
     }
   },
   {
     option: 'slowlyGrowText',
-    fn: function(css, opts) {
-      css.append('p {animation: grow ' + opts.time + ' ease-in;}');
+    fn: function (css, opts) {
+      css.append('p {animation: slowlyGrowText ' + opts.time + ' ease-in;}');
 
       var keyframes = '' +
-      '@keyframes blur {' +
+      '@keyframes slowlyGrowText {' +
       '0% { font-size: none; }' +
       '100% { font-size:' + opts.maxFontSize + '; }' +
       '}';
@@ -126,28 +134,52 @@ var globals = [
   },
   {
     option: 'spinDevTools',
-    fn: function(css, opts) {
+    fn: function (css) {
       css.append('#-blink-dev-tools {animation: spin 1s linear infinite;}');
     }
   },
+  {
+    option: 'blur',
+    fn: function (css, opt) {
+      css.append('body {animation: blur ' + opt.time + ' infinite;}');
 
+      var blur = '' +
+      '@keyframes blur {' +
+      '0%   { -webkit-filter: blur(0px); } ' +
+      '100%   { -webkit-filter: blur(' + opt.blur + '); }' +
+      '}';
+
+      css.append(blur);
+    }
+  }
 ];
 
 var defaults = {
+  aling: true,
+  blur: {
+    time: '120s',
+    blur: '0.8px'
+  },
+  blurBlink: {
+    time: '20s'
+  },
+  clearfix: true,
+  comicSans: true,
+  heigth: true,
+  hideCursor: true,
+  hideOdd: true,
+  ms: true,
+  ren: true,
   rotate: {
     deg: 0.2
   },
-  blur: {
-    time: '20s'
-  },
-  comicSans: true,
-  hideOdd: true,
-  wait: true,
-  hideCursor: true,
   slowlyGrowText: {
     time: '120s',
     maxFontSize: '80pt'
-  }
+  },
+  veryImportant: true,
+  wait: true,
+  zIndex: true
 };
 
 var plugin = postcss.plugin('postcss-trolling', function (opts) {
@@ -155,24 +187,28 @@ var plugin = postcss.plugin('postcss-trolling', function (opts) {
 
   opts = assign({}, defaults, opts);
 
-  return function (css, result) {
+  return function (css) {
     css.walkDecls(function (decl) {
       declsFns.forEach(function (declFn) {
-        declFn(decl);
+        if (opts[declFn.option] && declFn.condition(decl)) {
+          declFn.fn(decl, opts[declFn.option]);
+        }
       });
     });
 
     css.walk(function (node) {
       nodeFns.forEach(function (nodeFn) {
-        nodeFn(node);
+        if (opts[nodeFn.option] && nodeFn.condition(node)) {
+          nodeFn.fn(node, opts[nodeFn.option]);
+        }
       });
     });
 
-    globals.forEach(function(global) {
+    globals.forEach(function (global) {
       if (opts[global.option]) {
         global.fn(css, opts[global.option]);
       }
-    })
+    });
   };
 });
 
