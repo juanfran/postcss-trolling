@@ -1,6 +1,6 @@
 {
   "name": "postcss-trolling",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "PostCSS plugin to increase the productivity of your co-workers",
   "keywords": [
     "postcss",
@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/juanfran/postcss-trolling",
   "dependencies": {
-    "object.assign": "^4.0.3",
+    "object-assign": "^4.0.1",
     "postcss": "^5.0.10"
   },
   "devDependencies": {
