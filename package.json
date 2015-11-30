@@ -1,7 +1,7 @@
 {
   "name": "postcss-trolling",
-  "version": "0.0.0",
-  "description": "PostCSS plugin to increase the productivity of your coworkers",
+  "version": "0.1.0",
+  "description": "PostCSS plugin to increase the productivity of your co-workers",
   "keywords": [
     "postcss",
     "css",
