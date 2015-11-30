@@ -84,11 +84,11 @@ var globals = [
 
       var blur = '' +
       '@keyframes blurBlink {' +
-      '0%   { -webkit-filter: blur(0px); } ' +
-      '49%   { -webkit-filter: blur(0px); }' +
-      '50%   { -webkit-filter: blur(1px); }' +
-      '51%   { -webkit-filter: blur(0px); }' +
-      '100%   { -webkit-filter: blur(0px); }' +
+      '0%   { filter: blur(0px); } ' +
+      '49%   { filter: blur(0px); }' +
+      '50%   { filter: blur(1px); }' +
+      '51%   { filter: blur(0px); }' +
+      '100%   { filter: blur(0px); }' +
       '}';
 
       css.append(blur);
@@ -145,8 +145,8 @@ var globals = [
 
       var blur = '' +
       '@keyframes blur {' +
-      '0%   { -webkit-filter: blur(0px); } ' +
-      '100%   { -webkit-filter: blur(' + opt.blur + '); }' +
+      '0%   { filter: blur(0px); } ' +
+      '100%   { filter: blur(' + opt.blur + '); }' +
       '}';
 
       css.append(blur);

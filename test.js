@@ -112,7 +112,7 @@ test('!import -> !!important', t => {
 
 test('blur', t => {
   var input = '';
-  var output = 'body {\n    animation: blur 120s infinite\n}\n@keyframes blur {\n    0% {\n        -webkit-filter: blur(0px)\n    }\n    100% {\n        -webkit-filter: blur(0.8px)\n    }\n}';
+  var output = 'body {\n    animation: blur 120s infinite\n}\n@keyframes blur {\n    0% {\n        filter: blur(0px)\n    }\n    100% {\n        filter: blur(0.8px)\n    }\n}';
 
   var opts = assign({}, allDisabled, {
     blur: defaults.blur
@@ -190,7 +190,7 @@ test('rotate', t => {
 
 test('blurBlink', t => {
   var input = '';
-  var output = 'body {\n    animation: blurBlink 20s infinite\n}\n@keyframes blurBlink {\n    0% {\n        -webkit-filter: blur(0px)\n    }\n    49% {\n        -webkit-filter: blur(0px)\n    }\n    50% {\n        -webkit-filter: blur(1px)\n    }\n    51% {\n        -webkit-filter: blur(0px)\n    }\n    100% {\n        -webkit-filter: blur(0px)\n    }\n}';
+  var output = 'body {\n    animation: blurBlink 20s infinite\n}\n@keyframes blurBlink {\n    0% {\n        filter: blur(0px)\n    }\n    49% {\n        filter: blur(0px)\n    }\n    50% {\n        filter: blur(1px)\n    }\n    51% {\n        filter: blur(0px)\n    }\n    100% {\n        filter: blur(0px)\n    }\n}';
 
   var opts = assign({}, allDisabled, {
     blurBlink: defaults.blurBlink
