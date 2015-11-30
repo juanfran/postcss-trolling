@@ -16,20 +16,6 @@ See [PostCSS] docs for examples for your environment.
 
 ### Options
 
-#### rotate
-
-Rotate the website
-
-- Default:
-
-```js
-trolling({
-  rotate: {
-    deg: 0.2
-  }
-});
-```
-
 #### blurBlink
 
 Blur the website for a split second
@@ -43,6 +29,32 @@ trolling({
   }
 });
 ```
+```css
+/* output */
+body {
+    animation: blurBlink 20s infinite;
+}
+@keyframes blurBlink {
+    0% {
+        filter: blur(0px)
+    }
+    49% {
+        filter: blur(0px)
+    }
+    50% {
+        filter: blur(1px)
+    }
+    51% {
+        filter: blur(0px)
+    }
+    100% {
+        filter: blur(0px)
+    }
+}
+```
+
+![blink](https://cloud.githubusercontent.com/assets/905195/11480397/8d5ada72-9797-11e5-8332-223fb9161f0f.gif)
+
 
 #### comicSans
 
@@ -55,41 +67,11 @@ trolling({
   comicSans: true
 });
 ```
-
-#### hideOdd
-
-Hide every odd paragraph element
-
-- Default:
-
-```js
-trolling({
-  hideOdd: true
-});
-```
-
-#### wait
-
-Permanent cursor wait
-
-- Default:
-
-```js
-trolling({
-  wait: true
-});
-```
-
-#### hideCursor
-
-Hide cursor
-
-- Default:
-
-```js
-trolling({
-  hideCursor: true
-});
+```css
+/* output */
+* {
+    font-family: 'Comic Sans MS', cursive !important;
+}
 ```
 
 #### slowlyGrowText
@@ -106,6 +88,44 @@ trolling({
   }
 });
 ```
+```css
+/* output */
+p {
+    animation: slowlyGrowText 120s ease-in;
+}
+@keyframes slowlyGrowText {
+    0% {
+        font-size: none;
+    }
+    100% { 
+        font-size: 80pt;
+    }
+}
+```
+
+![text-grow](https://cloud.githubusercontent.com/assets/905195/11480858/1bef40c8-979a-11e5-93c6-c44a4eb3c6ce.gif)
+
+#### rotate
+
+Rotate the website
+
+- Default:
+
+```js
+trolling({
+  rotate: {
+    deg: 0.2
+  }
+});
+```
+
+```css
+/* output */
+body {
+    transform: rotate(0.2deg);
+    overflow: hidden;
+}
+```
 
 #### blur
 
@@ -121,6 +141,76 @@ trolling({
   }
 });
 ```
+```css
+/* output */
+body {
+    animation: blur 120s infinite;
+}
+@keyframes blur {
+    0% {
+        filter: blur(0px);
+    }
+    100% {
+        filter: blur(0.8px);
+    }
+}
+```
+
+![blur](https://cloud.githubusercontent.com/assets/905195/11480326/374f9334-9797-11e5-87b9-8c85d51c1ffc.gif)
+
+#### hideOdd
+
+Hide every odd paragraph element
+
+- Default:
+
+```js
+trolling({
+  hideOdd: true
+});
+```
+```css
+/* output */
+p:nth-child(odd) {
+    display: none;
+}
+```
+
+#### wait
+
+Permanent cursor wait
+
+- Default:
+
+```js
+trolling({
+  wait: true
+});
+```
+```css
+/* output */
+html {
+    cursor: wait !important;
+}
+```
+
+#### hideCursor
+
+Hide cursor
+
+- Default:
+
+```js
+trolling({
+  hideCursor: true
+});
+```
+```css
+/* output */
+html {
+    cursor: none !important;
+}
+```
 
 #### ren
 
@@ -131,7 +221,7 @@ rem is a band of course
    width: 10rem;
 }
 
-// -->
+// output -->
 
 .selector {
   width: 10ren;
@@ -155,7 +245,7 @@ microsoft doesn't have a browser...
    -ms-flex: 1;
 }
 
-// -->
+// output -->
 
 .selector {
   flex: 1;
@@ -178,7 +268,7 @@ Fix typo heigth
    height: 10px;
 }
 
-// -->
+// output -->
 
 .selector {
   heigth: 10px;
@@ -202,7 +292,7 @@ aling...
    align-content: center;
 }
 
-// -->
+// output -->
 
 .selector {
   aling-content: center;
@@ -223,7 +313,7 @@ fix clearfix
 ```css
 .clearfix:after { }
 
-// -->
+// output -->
 
 .clearfix:before { }
 
@@ -246,7 +336,7 @@ Makes everything very important...
   float: left !important;
 }
 
-// -->
+// output -->
 
 .selector {
   float: left !!important;
@@ -268,7 +358,7 @@ trolling({
   z-index: 99999;
 }
 
-// -->
+// output -->
 
 .selector {
   z-index: 0;
