@@ -46,7 +46,7 @@ trolling({
 
 #### comicSans
 
-The best font ever
+The best font ever for the web
 
 - Default:
 
