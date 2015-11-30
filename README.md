@@ -1,6 +1,6 @@
 # PostCSS Trolling [![Build Status][ci-img]][ci]
 
-[PostCSS] plugin to increase the productivity of your coworkers.
+[PostCSS] plugin to increase the productivity of your co-workers :trollface:.
 
 [PostCSS]: https://github.com/postcss/postcss
 [ci-img]:  https://travis-ci.org/juanfran/postcss-trolling.svg
@@ -171,7 +171,7 @@ trolling({
 
 #### heigth
 
-it's heigth of course
+Fix typo heigth
 
 ```css
 .selector {
@@ -195,7 +195,7 @@ trolling({
 
 #### aling
 
-aling... align... aggg
+aling...
 
 ```css
 .selector {
