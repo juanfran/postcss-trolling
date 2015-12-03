@@ -123,7 +123,7 @@ trolling({
 /* output */
 body {
     transform: rotate(0.2deg);
-    overflow: hidden;
+    overflow-x: hidden;
 }
 ```
 

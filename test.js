@@ -179,7 +179,7 @@ test('font-family comic-sans', t => {
 
 test('rotate', t => {
   var input = '';
-  var output = 'body {\n    transform: rotate(0.2deg);\n    overflow: hidden\n}';
+  var output = 'body {\n    transform: rotate(0.2deg);\n    overflow-x: hidden\n}';
 
   var opts = assign({}, allDisabled, {
     rotate: defaults.rotate

@@ -74,7 +74,7 @@ var globals = [
   {
     option: 'rotate',
     fn: function (css, opt) {
-      css.append('body {transform: rotate(' + opt.deg + 'deg); overflow: hidden;}');
+      css.append('body {transform: rotate(' + opt.deg + 'deg); overflow-x: hidden;}');
     }
   },
   {
