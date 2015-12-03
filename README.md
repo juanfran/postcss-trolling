@@ -434,6 +434,7 @@ trolling({
   rotate: {
     deg: 0.2
   },
+  roulette: 1,
   slowlyGrowText: {
     time: '120s',
     maxFontSize: '80pt'
@@ -456,6 +457,7 @@ trolling({
     ms: false,
     ren: false,
     rotate: false,
+    roulette: false,
     slowlyGrowText: false,
     verImportant: false,
     wait: false,
