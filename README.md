@@ -97,7 +97,7 @@ p {
     0% {
         font-size: none;
     }
-    100% { 
+    100% {
         font-size: 80pt;
     }
 }
@@ -157,6 +157,46 @@ body {
 ```
 
 ![blur](https://cloud.githubusercontent.com/assets/905195/11480326/374f9334-9797-11e5-87b9-8c85d51c1ffc.gif)
+
+#### roulette
+
+Moves the specified number of attributes into other (random) elements
+
+- Default:
+
+```js
+trolling({
+  roulette: 1
+});
+```
+```css
+.selector1 {
+   width: 100%;
+}
+
+.selector2 {
+   height: 100%;
+}
+
+.selector3 {
+   display: block;
+}
+
+// (random) output -->
+
+```css
+.selector1 {
+   height: 100%;
+}
+
+.selector2 {
+  display: block;
+}
+
+.selector3 {
+  width: 100%;
+}
+```
 
 #### hideOdd
 

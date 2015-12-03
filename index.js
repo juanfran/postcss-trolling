@@ -154,6 +154,53 @@ var globals = [
   }
 ];
 
+var getRandomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+var generateRandom = function (max, exclude) {
+  if (exclude !== undefined) {
+    if (max === 1) return max - exclude;
+    if (max === exclude) return getRandomInt(0, max);
+
+    var randoms = [];
+
+    randoms.push(getRandomInt(0, exclude - 1));
+    randoms.push(getRandomInt(exclude + 1, max));
+
+    return randoms[getRandomInt(0, randoms.length - 1)];
+  } else {
+    return getRandomInt(0, max);
+  }
+};
+
+var randomNodeManipulation = function (nodes) {
+  var nodeIndex = generateRandom(nodes.length - 1);
+
+  // origin node
+  var node = nodes[nodeIndex];
+
+  if (!node.nodes.length) return;
+
+  var declIndex = generateRandom(node.nodes.length - 1);
+  var decl = node.nodes[declIndex];
+
+  // remove the origin decl
+  node.nodes.splice(declIndex, 1);
+
+  // new node
+  var newNodeIndex = generateRandom(nodes.length - 1, nodeIndex);
+  var newNode = nodes[newNodeIndex];
+
+  newNode.nodes.push(decl);
+};
+
+var cssRoulette = function (nodes, num) {
+  for (var i = 0; i < num; i++) {
+    randomNodeManipulation(nodes);
+  }
+};
+
 var defaults = {
   aling: true,
   blur: {
@@ -173,6 +220,7 @@ var defaults = {
   rotate: {
     deg: 0.2
   },
+  roulette: 1,
   slowlyGrowText: {
     time: '120s',
     maxFontSize: '80pt'
@@ -188,20 +236,24 @@ var plugin = postcss.plugin('postcss-trolling', function (opts) {
   opts = assign({}, defaults, opts);
 
   return function (css) {
-    css.walkDecls(function (decl) {
-      declsFns.forEach(function (declFn) {
-        if (opts[declFn.option] && declFn.condition(decl)) {
-          declFn.fn(decl, opts[declFn.option]);
-        }
-      });
-    });
+    var allNodes = [];
 
     css.walk(function (node) {
-      nodeFns.forEach(function (nodeFn) {
-        if (opts[nodeFn.option] && nodeFn.condition(node)) {
-          nodeFn.fn(node, opts[nodeFn.option]);
-        }
-      });
+      if(node.type === 'rule') {
+        allNodes.push(node);
+
+        nodeFns.forEach(function (nodeFn) {
+          if (opts[nodeFn.option] && nodeFn.condition(node)) {
+            nodeFn.fn(node, opts[nodeFn.option]);
+          }
+        });
+      } else if (node.type === 'decl') {
+        declsFns.forEach(function (declFn) {
+          if (opts[declFn.option] && declFn.condition(node)) {
+            declFn.fn(node, opts[declFn.option]);
+          }
+        });
+      }
     });
 
     globals.forEach(function (global) {
@@ -209,6 +261,10 @@ var plugin = postcss.plugin('postcss-trolling', function (opts) {
         global.fn(css, opts[global.option]);
       }
     });
+
+    if (opts.roulette) {
+      cssRoulette(allNodes, opts.roulette);
+    }
   };
 });
 

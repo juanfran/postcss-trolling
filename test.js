@@ -19,6 +19,7 @@ var allDisabled = {
   ms: false,
   ren: false,
   rotate: false,
+  roulette: false,
   slowlyGrowText: false,
   verImportant: false,
   wait: false,
@@ -32,6 +33,19 @@ function run(t, input, output, opts = { }) {
     t.same(result.warnings().length, 0);
   });
 }
+
+test('roulette, move a css property', t => {
+  var input = 'a { width: 100%; } b { height: 20px; display: block; } c { border: 20px; }';
+
+  var opts = assign({}, allDisabled, {
+    roulette: 30
+  });
+
+  return postcss([ plugin(opts) ]).process(input)
+  .then( result => {
+    t.same(result.warnings().length, 0);
+  });
+});
 
 test('clearfix after -> before', t => {
   var input = '.clearfix:after { }';
