@@ -160,7 +160,7 @@ body {
 
 #### roulette
 
-Moves the specified number of attributes into other (random) elements
+Moves the specified number of properties into other (random) elements
 
 - Default:
 
